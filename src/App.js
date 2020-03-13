@@ -12,6 +12,24 @@ const Box = (props) => {
   )
 }
 
+const Card = (props) => {
+  return (
+    <div className="card">
+      <div className="card-title center top-margin">{props.title}</div>
+      {props.children}
+    </div>
+  )
+}
+
+const RevenueCard = (props) => {
+  return (
+    <div className="card">
+      <div className="card-title center">{props.title}</div>
+      <div className="card-stat center"><span style={{ fontSize: '1.5rem' }}>$ </span>{props.stat}k</div>
+    </div>
+  )
+}
+
 const PieChart = (props) => {
   const pieData = [
     {
@@ -71,26 +89,6 @@ const PieChart = (props) => {
   )
 }
 
-const BubbleChart = ({ data }) => {
-  const dimensions  = {height: 350, width: 600}
-  return (
-    <div style={{ height: dimensions.height, width: dimensions.width }}>
-      <ResponsiveBubble
-        root={data}
-        margin={{ top: 20, right: dimensions.width * 0.8 / 3, bottom: 20, left: dimensions.width * 0.8 / 3 }}
-        identity="name"
-        value="loc"
-        colors={{ scheme: 'spectral' }}
-        padding={9}
-        enableLabel={true}
-        isZoomable={false}
-        leavesOnly={true}
-        isInteractive={false}
-      />
-    </div>
-  )
-}
-
 const BarChart = ({ data }) => {
   const dimensions  = {height: 350, width: 600}
   return (
@@ -123,20 +121,22 @@ const BarChart = ({ data }) => {
   )
 }
 
-const Card = (props) => {
+const BubbleChart = ({ data }) => {
+  const dimensions  = {height: 350, width: 600}
   return (
-    <div className="card">
-      <div className="card-title center top-margin">{props.title}</div>
-      {props.children}
-    </div>
-  )
-}
-
-const RevenueCard = (props) => {
-  return (
-    <div className="card">
-      <div className="card-title center">{props.title}</div>
-      <div className="card-stat center"><span style={{ fontSize: '1.5rem' }}>$ </span>{props.stat}k</div>
+    <div style={{ height: dimensions.height, width: dimensions.width }}>
+      <ResponsiveBubble
+        root={data}
+        margin={{ top: 20, right: dimensions.width * 0.8 / 3, bottom: 20, left: dimensions.width * 0.8 / 3 }}
+        identity="name"
+        value="loc"
+        colors={{ scheme: 'spectral' }}
+        padding={9}
+        enableLabel={true}
+        isZoomable={false}
+        leavesOnly={true}
+        isInteractive={false}
+      />
     </div>
   )
 }
@@ -185,6 +185,11 @@ const App = () => {
 
   return (
     <>
+    <nav>
+      <span>Dashboard</span>
+      <span>Sales Summary</span>
+      <span>Hey, you!</span>
+    </nav>
       <Box>
         <RevenueCard title="Revenue from Amazon" stat="5.75" />
         <RevenueCard title="Revenue from Ebay" stat="1.91" />

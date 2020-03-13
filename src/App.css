@@ -19,6 +19,21 @@ body {
   background-color: #17202e;
 }
 
+nav {
+  width: 100%;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 50px;
+}
+
+nav > span {
+  margin: auto 2rem;
+}
+
 /* Controls text color of chart-labels */
 text {
   fill: #fff !important;

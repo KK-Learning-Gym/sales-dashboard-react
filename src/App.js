@@ -59,7 +59,7 @@ const PercentPie = ({ data }) => {
         // This is important to preserve the chart interactivity
         pointerEvents: "none"
       }}>
-        <span>11%</span>
+        <span>{data[0].value}%</span>
       </div>
     </div>
   )
@@ -69,15 +69,15 @@ const PercentPie = ({ data }) => {
 const PieCard = (props) => {
   const data = [
       {
-        "id": "python",
-      "label": "python",
-      "value": 11,
-      "color": "hsl(216, 54%, 49%)"
+        "id": props.title,
+      "label": props.title,
+      "value": props.stat,
+      "color": props.color
     },
       {
         "id": "empty",
       "label": "empty",
-      "value": 89,
+      "value": 100 - props.stat,
       "color": "hsl(217, 33%, 14%)"
     }
   ]
@@ -86,7 +86,6 @@ const PieCard = (props) => {
       <>
         <div className="card">
           <div className="card-title">{props.title}</div>
-          <div>{props.stat}%</div>
           <PercentPie data={data} class="identity" />
         </div>
       </>
@@ -100,9 +99,9 @@ const PieCardBox = () => {
 
   return (
       <>
-        <PieCard title="Purchase Rate" stat={purchase} />
-        <PieCard title="Checkout Rate" stat={checkout} />
-        <PieCard title="Cart Abandon Rate" stat={abandon} />
+        <PieCard title="Purchase Rate" stat={purchase} color="hsl(216, 54%, 49%)" />
+        <PieCard title="Checkout Rate" stat={checkout} color="hsl(186, 53%, 51%)" />
+        <PieCard title="Cart Abandon Rate" stat={abandon} color="hsl(69, 83%, 84%)" />
       </>
   )
 }

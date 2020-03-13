@@ -66,8 +66,15 @@ text {
 .flexbox {
   display: flex;
   flex-direction: row;
-  border-style: solid;
   justify-content: space-around;
   flex-wrap: wrap;
 }
+
+@media screen and (max-width: 1100px) {
+  /* .chart {
+    flex-direction: column;
+  } */
+}
+
+
 

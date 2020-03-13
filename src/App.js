@@ -17,10 +17,10 @@ const RevenueCard = (props) => {
 const RevenueCardBox = () => {
   return (
     <div className="flexbox">
-      <RevenueCard title="Total Revenue" stat="9.02" />
       <RevenueCard title="Revenue from Amazon" stat="5.75" />
       <RevenueCard title="Revenue from Ebay" stat="1.91" />
       <RevenueCard title="Revenue from Etsy" stat="1.36" />
+      <RevenueCard title="Total Revenue" stat="9.02" />
     </div>
   )
 }
@@ -95,7 +95,7 @@ const PieCard = (props) => {
 
 const PieCardBox = () => {
   return (
-    <div className="flexbox">
+    <div className="flexbox chart">
       <PieCard title="Purchase Rate" stat={11} color="hsl(216, 54%, 49%)" />
       <PieCard title="Checkout Rate" stat={8} color="hsl(186, 53%, 51%)" />
       <PieCard title="Cart Abandon Rate" stat={88} color="hsl(69, 83%, 84%)" />
@@ -105,7 +105,7 @@ const PieCardBox = () => {
 
 const BubbleChart = ({ data }) => {
   return (
-    <div style={{ height: '300px', width: '550px' }}>
+    <div style={{ height: '350px', width: '550px' }}>
       <ResponsiveBubble
         root={data}
         margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
@@ -215,7 +215,7 @@ const OrderCardBubble = () => {
 
 const OrderCardBox = () => {
   return (
-    <div className="flexbox">
+    <div className="flexbox chart">
       <OrderCardBar />
       <OrderCardBubble />
     </div>

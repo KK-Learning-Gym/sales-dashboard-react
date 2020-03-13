@@ -19,6 +19,7 @@ body {
   background-color: #17202e;
 }
 
+/* Controls text color of chart-labels */
 text {
   fill: #fff !important;
 }

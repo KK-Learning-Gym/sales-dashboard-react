@@ -2,46 +2,7 @@ import React from 'react';
 import './App.css';
 import { ResponsivePie } from '@nivo/pie'
 import { ResponsiveBar } from '@nivo/bar'
-
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-
-
-
-const MyResponsiveBar = ({ data }) => {
-
-  return (
-    <div style={{ height: '300px', width: '500px' }} className="left-margin">
-      <ResponsiveBar
-      colors="hsl(216, 54%, 49%)"
-        data={data}
-        keys={['hot dog']}
-        indexBy="country"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-        padding={0.3}
-        layout="horizontal"
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          legend: 'Orders',
-          legendPosition: 'middle',
-          legendOffset: 32
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5
-        }}
-        enableGridX={true}
-        enableGridY={false}
-        enableLabel={false}
-        isInteractive={false}
-      />
-    </div>
-  )
-}
+import { ResponsiveBubble } from '@nivo/circle-packing'
 
 const RevenueCard = (props) => {
 
@@ -64,7 +25,7 @@ const RevenueCardBox = () => {
   )
 }
 
-const PercentPie = ({ data }) => {
+const PieChart = ({ data }) => {
 
   const dimension = 300
   const margins = { top: 0, left: dimension * 0.8 / 3, bottom: 0, right: dimension * 0.8 / 3 }
@@ -104,7 +65,6 @@ const PercentPie = ({ data }) => {
   )
 }
 
-
 const PieCard = (props) => {
   const data = [
     {
@@ -126,7 +86,7 @@ const PieCard = (props) => {
       <div className="card">
         <div className="card-title center top-margin">{props.title}</div>
         <div className="piebox">
-          <PercentPie data={data} />
+          <PieChart data={data} />
         </div>
       </div>
     </>
@@ -143,8 +103,59 @@ const PieCardBox = () => {
   )
 }
 
-const OrderCard = () => {
-  const data = [
+const BubbleChart = ({ data }) => {
+  return (
+    <div style={{ height: '300px', width: '550px' }}>
+      <ResponsiveBubble
+        root={data}
+        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+        identity="name"
+        value="loc"
+        colors={{ scheme: 'spectral' }}
+        padding={9}
+        enableLabel={true}
+        isZoomable={false}
+        leavesOnly={true}
+        isInteractive={false}
+      />
+    </div>
+  )
+}
+
+const BarChart = ({ data }) => {
+
+  return (
+    <div style={{ height: '350px', width: '550px' }} className="left-margin">
+      <ResponsiveBar
+        colors="hsl(216, 54%, 49%)"
+        data={data}
+        keys={['hot dog']}
+        indexBy="country"
+        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        padding={0.3}
+        layout="horizontal"
+        axisBottom={{
+          tickSize: 5,
+          tickPadding: 5,
+          legend: 'Orders',
+          legendPosition: 'middle',
+          legendOffset: 32
+        }}
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5
+        }}
+        enableGridX={true}
+        enableGridY={false}
+        enableLabel={false}
+        isInteractive={false}
+      />
+    </div>
+  )
+}
+
+const OrderCardBar = () => {
+  const bardata = [
     {
       "country": "Etsy",
       "hot dog": 8,
@@ -161,7 +172,43 @@ const OrderCard = () => {
 
   return (
     <div className="card">
-      <MyResponsiveBar data={data} />
+      <div className="card-title center top-margin">Orders Trend<br />by Stores</div>
+      <BarChart data={bardata} />
+    </div>
+  )
+}
+
+const OrderCardBubble = () => {
+  const bubbledata = {
+    "name": "chart",
+    "children": [
+      {
+        "name": "NW",
+        "loc": 4
+      },
+      {
+        "name": "SW",
+        "loc": 2
+      },
+      {
+        "name": "CR",
+        "loc": 3
+      },
+      {
+        "name": "SE",
+        "loc": 1
+      },
+      {
+        "name": "NE",
+        "loc": 5
+      }
+    ]
+  }
+
+  return (
+    <div className="card">
+      <div className="card-title center top-margin">Orders Trend<br />by Region</div>
+      <BubbleChart data={bubbledata} />
     </div>
   )
 }
@@ -169,8 +216,8 @@ const OrderCard = () => {
 const OrderCardBox = () => {
   return (
     <div className="flexbox">
-      <OrderCard />
-      <OrderCard />
+      <OrderCardBar />
+      <OrderCardBubble />
     </div>
   )
 }

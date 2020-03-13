@@ -154,7 +154,16 @@ const BarChart = ({ data }) => {
   )
 }
 
-const OrderCardBar = () => {
+const OrderCard = (props) => {
+  return (
+    <div className="card">
+      <div className="card-title center top-margin">Orders Trend<br />by {props.group}</div>
+      {props.children}
+    </div>
+  )
+}
+
+const OrderCardBox = () => {
   const bardata = [
     {
       "country": "Etsy",
@@ -170,15 +179,6 @@ const OrderCardBar = () => {
     }
   ]
 
-  return (
-    <div className="card">
-      <div className="card-title center top-margin">Orders Trend<br />by Stores</div>
-      <BarChart data={bardata} />
-    </div>
-  )
-}
-
-const OrderCardBubble = () => {
   const bubbledata = {
     "name": "chart",
     "children": [
@@ -206,18 +206,13 @@ const OrderCardBubble = () => {
   }
 
   return (
-    <div className="card">
-      <div className="card-title center top-margin">Orders Trend<br />by Region</div>
-      <BubbleChart data={bubbledata} />
-    </div>
-  )
-}
-
-const OrderCardBox = () => {
-  return (
     <div className="flexbox chart">
-      <OrderCardBar />
-      <OrderCardBubble />
+      <OrderCard group="Stores">
+        <BarChart data={bardata} />
+      </OrderCard>
+      <OrderCard group="Region">
+        <BubbleChart data={bubbledata} />
+      </OrderCard>
     </div>
   )
 }
@@ -225,11 +220,11 @@ const OrderCardBox = () => {
 const App = () => {
 
   return (
-    <>
-      <RevenueCardBox />
-      <PieCardBox />
-      <OrderCardBox />
-    </>
+      <>
+        <RevenueCardBox />
+        <PieCardBox />
+        <OrderCardBox />
+      </>
   )
 
 }

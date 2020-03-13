@@ -6,8 +6,8 @@ const RevenueCard = (props) => {
 
   return (
     <div className="card">
-      <div className="card-title">{props.title}</div>
-      <div className="card-stat"><span style={{ fontSize: '1.5rem' }}>$ </span>{props.stat}k</div>
+      <div className="card-title left-margin">{props.title}</div>
+      <div className="card-stat left-margin"><span style={{ fontSize: '1.5rem' }}>$ </span>{props.stat}k</div>
     </div>
   )
 }
@@ -26,7 +26,7 @@ const RevenueCardBox = () => {
 const PercentPie = ({ data }) => {
 
   const dimension = 300
-  const margins = {top: 0, left: dimension * 0.8/3, bottom:0, right: dimension * 0.8/3}
+  const margins = { top: 0, left: dimension * 0.8 / 3, bottom: 0, right: dimension * 0.8 / 3 }
   return (
     <div style={{
       height: dimension,
@@ -49,15 +49,13 @@ const PercentPie = ({ data }) => {
         position: "absolute",
         top: '0',
         bottom: '0',
-        right: dimension/2,
-        left: dimension/2,
+        right: dimension / 2,
+        left: dimension / 2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        textAlign: "center",
-        // This is important to preserve the chart interactivity
-        pointerEvents: "none"
+        textAlign: "center"
       }}>
         <span>{data[0].value}%</span>
       </div>
@@ -68,14 +66,14 @@ const PercentPie = ({ data }) => {
 
 const PieCard = (props) => {
   const data = [
-      {
-        "id": props.title,
+    {
+      "id": props.title,
       "label": props.title,
       "value": props.stat,
       "color": props.color
     },
-      {
-        "id": "empty",
+    {
+      "id": "empty",
       "label": "empty",
       "value": 100 - props.stat,
       "color": "hsl(217, 33%, 14%)"
@@ -83,12 +81,15 @@ const PieCard = (props) => {
   ]
 
   return (
-      <>
-        <div className="card">
-          <div className="card-title">{props.title}</div>
-          <PercentPie data={data} class="identity" />
+    <>
+      <div className="card">
+        <div className="card-title center top-margin">{props.title}</div>
+        <div className="piebox">
+          <PercentPie data={data} />
         </div>
-      </>
+
+      </div>
+    </>
   )
 }
 
@@ -98,21 +99,21 @@ const PieCardBox = () => {
   const abandon = 88
 
   return (
-      <>
-        <PieCard title="Purchase Rate" stat={purchase} color="hsl(216, 54%, 49%)" />
-        <PieCard title="Checkout Rate" stat={checkout} color="hsl(186, 53%, 51%)" />
-        <PieCard title="Cart Abandon Rate" stat={abandon} color="hsl(69, 83%, 84%)" />
-      </>
+    <>
+      <PieCard title="Purchase Rate" stat={purchase} color="hsl(216, 54%, 49%)" />
+      <PieCard title="Checkout Rate" stat={checkout} color="hsl(186, 53%, 51%)" />
+      <PieCard title="Cart Abandon Rate" stat={abandon} color="hsl(69, 83%, 84%)" />
+    </>
   )
 }
 
 const App = () => {
 
   return (
-      <>
-        <RevenueCardBox />
-        <PieCardBox />
-      </>
+    <>
+      <RevenueCardBox />
+      <PieCardBox />
+    </>
   )
 
 }

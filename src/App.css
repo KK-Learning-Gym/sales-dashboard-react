@@ -26,18 +26,32 @@ body {
   background-color: #202a3b;
   color: #fff;
   min-height: 150px;
-  padding-left: 2rem;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   ;
 }
 
 .card-title {
-  padding: 5px;
   color: #8091ab;
   font-size: .875rem;
 }
 
 .card-stat {
-  padding: 5px;
   font-size: 2rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.left-margin {
+  margin-left: 2.5rem;
+}
+
+.top-margin {
+  margin-top: 1.5rem;
+}
+
+.piebox {
+  display: flex;
+  justify-content: space-around;
 }

@@ -1,6 +1,47 @@
 import React from 'react';
 import './App.css';
 import { ResponsivePie } from '@nivo/pie'
+import { ResponsiveBar } from '@nivo/bar'
+
+// make sure parent container have a defined height when using
+// responsive component, otherwise height will be 0 and
+// no chart will be rendered.
+// website examples showcase many properties,
+// you'll often use just a few of them.
+
+
+
+const MyResponsiveBar = ({ data }) => {
+
+  return (
+    <div style={{ height: '300px', width: '500px' }} className="left-margin">
+      <ResponsiveBar
+      colors="hsl(216, 54%, 49%)"
+        data={data}
+        keys={['hot dog']}
+        indexBy="country"
+        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        padding={0.3}
+        layout="horizontal"
+        axisBottom={{
+          tickSize: 5,
+          tickPadding: 5,
+          legend: 'Orders',
+          legendPosition: 'middle',
+          legendOffset: 32
+        }}
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5
+        }}
+        enableGridX={true}
+        enableGridY={false}
+        enableLabel={false}
+        isInteractive={false}
+      />
+    </div>
+  )
+}
 
 const RevenueCard = (props) => {
 
@@ -14,12 +55,12 @@ const RevenueCard = (props) => {
 
 const RevenueCardBox = () => {
   return (
-    <>
+    <div className="flexbox">
       <RevenueCard title="Total Revenue" stat="9.02" />
       <RevenueCard title="Revenue from Amazon" stat="5.75" />
       <RevenueCard title="Revenue from Ebay" stat="1.91" />
       <RevenueCard title="Revenue from Etsy" stat="1.36" />
-    </>
+    </div>
   )
 }
 
@@ -87,23 +128,50 @@ const PieCard = (props) => {
         <div className="piebox">
           <PercentPie data={data} />
         </div>
-
       </div>
     </>
   )
 }
 
 const PieCardBox = () => {
-  const purchase = 11
-  const checkout = 8
-  const abandon = 88
+  return (
+    <div className="flexbox">
+      <PieCard title="Purchase Rate" stat={11} color="hsl(216, 54%, 49%)" />
+      <PieCard title="Checkout Rate" stat={8} color="hsl(186, 53%, 51%)" />
+      <PieCard title="Cart Abandon Rate" stat={88} color="hsl(69, 83%, 84%)" />
+    </div>
+  )
+}
+
+const OrderCard = () => {
+  const data = [
+    {
+      "country": "Etsy",
+      "hot dog": 8,
+    },
+    {
+      "country": "Ebay",
+      "hot dog": 12,
+    },
+    {
+      "country": "Amazon",
+      "hot dog": 44
+    }
+  ]
 
   return (
-    <>
-      <PieCard title="Purchase Rate" stat={purchase} color="hsl(216, 54%, 49%)" />
-      <PieCard title="Checkout Rate" stat={checkout} color="hsl(186, 53%, 51%)" />
-      <PieCard title="Cart Abandon Rate" stat={abandon} color="hsl(69, 83%, 84%)" />
-    </>
+    <div className="card">
+      <MyResponsiveBar data={data} />
+    </div>
+  )
+}
+
+const OrderCardBox = () => {
+  return (
+    <div className="flexbox">
+      <OrderCard />
+      <OrderCard />
+    </div>
   )
 }
 
@@ -113,6 +181,7 @@ const App = () => {
     <>
       <RevenueCardBox />
       <PieCardBox />
+      <OrderCardBox />
     </>
   )
 

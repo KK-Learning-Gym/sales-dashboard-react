@@ -34,6 +34,12 @@ nav > span {
   margin: auto 2rem;
 }
 
+select {
+  user-select: none;
+  outline: none;
+}
+
+
 /* Controls text color of chart-labels */
 text {
   fill: #fff !important;

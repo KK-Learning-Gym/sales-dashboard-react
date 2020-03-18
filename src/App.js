@@ -144,40 +144,30 @@ const BubbleChart = ({ data }) => {
   )
 }
 
-const DynamicBoxes = () => {
+const DynamicBoxes = ({ response }) => {
 
-  const baseUrl = 'https://sales-dashboard-react.herokuapp.com/db/'
+  console.log("loading dynamic boxes")
+  console.log("checking response received in component:")
+  console.log(response)
 
-  const [period, setPeriod] = useState({})
+  const truthValue = Object.keys(response).length === 0 && response.constructor === Object ? false : true
 
-  const hook = () => {
-    const getData = async () => {
-      const { data } = await axios('https://sales-dashboard-react.herokuapp.com/db/2019/Jan')
-      setPeriod({
-        'responseData': data,
-      })
+  console.log("truthValue")
+  console.log(truthValue)
 
-    }
 
-    getData()
-  }
-
-  useEffect(hook, [])
-  const truthValue = period.responseData === undefined ? false : true
-  
-  return  !truthValue ? (<div>Loading...</div>):(
+  return !truthValue ? (<div className="loading">Loading...</div>) : (
     <>
-      {console.log("boxes loaded")}
       <Box>
-        <RevenueCard title="Revenue from Amazon" stat={(period.responseData.Revenues.AM / 1000).toFixed(2)} />
-        <RevenueCard title="Revenue from Ebay" stat={(period.responseData.Revenues.EB / 1000).toFixed(2)} />
-        <RevenueCard title="Revenue from Etsy" stat={(period.responseData.Revenues.ET / 1000).toFixed(2)} />
-        <RevenueCard title="Total Revenue" stat={(period.responseData.Revenues.total / 1000).toFixed(2)} />
+        <RevenueCard title="Revenue from Amazon" stat={(response.Revenues.AM / 1000).toFixed(2)} />
+        <RevenueCard title="Revenue from Ebay" stat={(response.Revenues.EB / 1000).toFixed(2)} />
+        <RevenueCard title="Revenue from Etsy" stat={(response.Revenues.ET / 1000).toFixed(2)} />
+        <RevenueCard title="Total Revenue" stat={(response.Revenues.total / 1000).toFixed(2)} />
       </Box>
       <Box>
-        <PieChart title="Purchase Rate" stat={period.responseData.Rates.purchase} color="hsl(216, 54%, 49%)" />
-        <PieChart title="Checkout Rate" stat={period.responseData.Rates.checkout} color="hsl(186, 53%, 51%)" />
-        <PieChart title="Cart Abandon Rate" stat={period.responseData.Rates.abandoned} color="hsl(69, 83%, 84%)" />
+        <PieChart title="Purchase Rate" stat={response.Rates.purchase} color="hsl(216, 54%, 49%)" />
+        <PieChart title="Checkout Rate" stat={response.Rates.checkout} color="hsl(186, 53%, 51%)" />
+        <PieChart title="Cart Abandon Rate" stat={response.Rates.abandoned} color="hsl(69, 83%, 84%)" />
       </Box>
       <Box>
         <Card title="Orders Trend by Stores">
@@ -185,15 +175,15 @@ const DynamicBoxes = () => {
             [
               {
                 "store": "Etsy",
-                "value": period.responseData.OrdersByStore.ET
+                "value": response.OrdersByStore.ET
               },
               {
                 "store": "Ebay",
-                "value": period.responseData.OrdersByStore.EB
+                "value": response.OrdersByStore.EB
               },
               {
                 "store": "Amazon",
-                "value": period.responseData.OrdersByStore.AM
+                "value": response.OrdersByStore.AM
               }
             ]
           } />
@@ -205,23 +195,23 @@ const DynamicBoxes = () => {
               "children": [
                 {
                   "name": "NW",
-                  "loc": period.responseData.OrdersByRegion.nw
+                  "loc": response.OrdersByRegion.nw
                 },
                 {
                   "name": "SW",
-                  "loc": period.responseData.OrdersByRegion.sw
+                  "loc": response.OrdersByRegion.sw
                 },
                 {
                   "name": "CR",
-                  "loc": period.responseData.OrdersByRegion.c
+                  "loc": response.OrdersByRegion.c
                 },
                 {
                   "name": "SE",
-                  "loc": period.responseData.OrdersByRegion.se
+                  "loc": response.OrdersByRegion.se
                 },
                 {
                   "name": "NE",
-                  "loc": period.responseData.OrdersByRegion.ne
+                  "loc": response.OrdersByRegion.ne
                 }
               ]
             }
@@ -231,37 +221,103 @@ const DynamicBoxes = () => {
     </>
   )
 }
-
+const OptionList = () => {
+  // Note: Change this to a mapped array using array map method.
+  return (
+    <>
+      <option value="Jan 2019">Jan 2019</option>
+      <option value="Dec 2018">Dec 2018</option>
+      <option value="Nov 2018">Nov 2018</option>
+      <option value="Oct 2018">Oct 2018</option>
+      <option value="Sep 2018">Sep 2018</option>
+      <option value="Aug 2018">Aug 2018</option>
+      <option value="Jul 2018">Jul 2018</option>
+      <option value="Jun 2018">Jun 2018</option>
+      <option value="May 2018">May 2018</option>
+      <option value="Apr 2018">Apr 2018</option>
+      <option value="Mar 2018">Mar 2018</option>
+      <option value="Feb 2018">Feb 2018</option>
+      <option value="Jan 2018">Jan 2018</option>
+    </>
+  )
+}
 const App = () => {
+  // const baseUrl = 'https://sales-dashboard-react.herokuapp.com/db/'
+  const baseUrl = 'http://localhost:3001/db'
+  // const initialQuery = 'https://sales-dashboard-react.herokuapp.com/db/2019/Jan'
+  const initialQuery = 'http://localhost:3001/db/2019/Jan'
 
+  const [response, setResponse] = useState({})
+  const [query, setQuery] = useState(initialQuery)
 
-  // const periodSplit = period.split(" ")
-  // const requestUrl = baseUrl + periodSplit[1] + "/" + periodSplit[0]
+  const handleChange = (event) => {
+
+    console.log("event received")
+
+    const valueArray = event.target.value.split(" ")
+    const requestUrl = baseUrl + "/" + valueArray[1] + "/" + valueArray[0]
+
+    console.log("setting query")
+    console.log(requestUrl)
+
+    setQuery(requestUrl)
+  }
+
+  const hook = () => {
+    const getData = async () => {
+      console.log("the effect is being used")
+      console.log("received query as:")
+      console.log(query)
+      console.log("fetching data now...")
+
+      try {
+        const { data } = await axios(query)
+
+        console.log("got data as:")
+        console.log(data)
+        console.log("setting response")
+
+        setResponse(data)
+      }
+      catch {
+        const errorMessage = `<p>See, the thing is: the backend server is down on Heroku.<br />
+        You could try refreshing the page.<br /><br />
+        If it still doesn't load then I've crossed my Heroku usage limit.<br /><br />
+        But...<br /><br />
+        You can check out the code for this repository here :<br /><br />
+        <a href="">Frontend</a>&nbsp;&nbsp;&nbsp;
+        <a href="">Backend</a>
+        </p>`
+        
+        document.querySelector('.loading').innerHTML = errorMessage
+      }
+    }
+
+    getData()
+  }
+  // see : https://daveceddia.com/useeffect-hook-examples/ under Prevent useEffect From Running Every Render
+  // You can provide a second argument – an array of values. Think of them as the dependencies for that effect.
+  // If one of the dependencies has changed since the last time, the effect will run again.
+  // (It will also still run after the initial render)
+  // From FullStackOpen:
+  // The second parameter of useEffect is used to specify how often the effect is run.
+  // If the second parameter is an empty array [],
+  // then the effect is only run along with the first render of the component.
+
+  useEffect(hook, [query])
 
   return (
     <>
       <nav>
         <span>
-          <select id="month">
-            <option value="Jan 2019">Jan 2019</option>
-            <option value="Dec 2018">Dec 2018</option>
-            <option value="Nov 2018">Nov 2018</option>
-            <option value="Oct 2018">Oct 2018</option>
-            <option value="Sep 2018">Sep 2018</option>
-            <option value="Aug 2018">Aug 2018</option>
-            <option value="July 2018">July 2018</option>
-            <option value="Jun 2018">Jun 2018</option>
-            <option value="May 2018">May 2018</option>
-            <option value="Apr 2018">Apr 2018</option>
-            <option value="Mar 2018">Mar 2018</option>
-            <option value="Feb 2018">Feb 2018</option>
-            <option value="Jan 2018">Jan 2018</option>
+          <select id="month" onChange={handleChange}>
+            <OptionList />
           </select>
         </span>
         <span>Sales Summary</span>
         <span>Hey, you!</span>
       </nav>
-      <DynamicBoxes />
+      <DynamicBoxes response={response} />
     </>
   )
 

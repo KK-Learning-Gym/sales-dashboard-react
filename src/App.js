@@ -93,15 +93,18 @@ const PieChart = (props) => {
 }
 
 const BarChart = ({ data }) => {
-  const dimensions = { height: 350, width: 600 }
+  const dimension = 300
+  const margins = { top: dimension * 0.8 / 3, left: dimension * 0.8 / 3, bottom: dimension * 0.8 / 3, right: dimension * 0.8 / 3 }
+  const dimensions = { height: '35vh', width: '60vw' }
   return (
-    <div style={{ height: dimensions.height, width: dimensions.width }}>
+    <div style={{ height: dimensions.height, width: dimensions.width, minHeight: 300, minWidth: 250 }} className="trickyChart">
+      {console.log(dimensions.height)}
       <ResponsiveBar
         colors="hsl(216, 54%, 49%)"
         data={data}
         keys={['value']}
         indexBy="store"
-        margin={{ top: dimensions.height * 0.8 / 3, right: dimensions.width * 0.8 / 3, bottom: dimensions.height * 0.8 / 3, left: dimensions.width * 0.8 / 3 }}
+        margin={margins}
         padding={0.3}
         layout="horizontal"
         axisBottom={{
@@ -119,18 +122,19 @@ const BarChart = ({ data }) => {
         enableGridY={false}
         enableLabel={false}
         isInteractive={false}
+
       />
     </div>
   )
 }
 
 const BubbleChart = ({ data }) => {
-  const dimensions = { height: 350, width: 600 }
+  const dimensions = { height: '35vh', width: '60vw' }
   return (
-    <div style={{ height: dimensions.height, width: dimensions.width }}>
+    <div style={{ height: dimensions.height, width: dimensions.width, minHeight: 300, minWidth: 250 }} className="trickyChart">
       <ResponsiveBubble
         root={data}
-        margin={{ top: 20, right: dimensions.width * 0.8 / 3, bottom: 20, left: dimensions.width * 0.8 / 3 }}
+        margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
         identity="name"
         value="loc"
         colors={{ scheme: 'spectral' }}
@@ -139,6 +143,7 @@ const BubbleChart = ({ data }) => {
         isZoomable={false}
         leavesOnly={true}
         isInteractive={false}
+        className="trickyChart"
       />
     </div>
   )
@@ -156,70 +161,82 @@ const DynamicBoxes = ({ response }) => {
   console.log(truthValue)
 
 
-  return !truthValue ? (<div className="loading">Loading...</div>) : (
+  return !truthValue ? (
     <>
-      <Box>
-        <RevenueCard title="Revenue from Amazon" stat={(response.Revenues.AM / 1000).toFixed(2)} />
-        <RevenueCard title="Revenue from Ebay" stat={(response.Revenues.EB / 1000).toFixed(2)} />
-        <RevenueCard title="Revenue from Etsy" stat={(response.Revenues.ET / 1000).toFixed(2)} />
-        <RevenueCard title="Total Revenue" stat={(response.Revenues.total / 1000).toFixed(2)} />
-      </Box>
-      <Box>
-        <PieChart title="Purchase Rate" stat={response.Rates.purchase} color="hsl(216, 54%, 49%)" />
-        <PieChart title="Checkout Rate" stat={response.Rates.checkout} color="hsl(186, 53%, 51%)" />
-        <PieChart title="Cart Abandon Rate" stat={response.Rates.abandoned} color="hsl(69, 83%, 84%)" />
-      </Box>
-      <Box>
-        <Card title="Orders Trend by Stores">
-          <BarChart data={
-            [
-              {
-                "store": "Etsy",
-                "value": response.OrdersByStore.ET
-              },
-              {
-                "store": "Ebay",
-                "value": response.OrdersByStore.EB
-              },
-              {
-                "store": "Amazon",
-                "value": response.OrdersByStore.AM
-              }
-            ]
-          } />
-        </Card>
-        <Card title="Orders Trend by Region">
-          <BubbleChart data={
-            {
-              "name": "chart",
-              "children": [
+      <div className="loading">Loading...</div>
+      <p>See, the thing is: the backend server is down on Heroku.<br />
+        You could try refreshing the page.<br /><br />
+        If it still doesn't load then I've crossed my Heroku usage limit.<br /><br />
+        But...<br /><br />
+        You can check out the code for this repository here :<br /><br />
+        <a href="">Frontend</a>&nbsp;&nbsp;&nbsp;
+        <a href="">Backend</a>
+      </p>
+    </>
+  ) : (
+      <>
+        <Box>
+          <RevenueCard title="Revenue from Amazon" stat={(response.Revenues.AM / 1000).toFixed(2)} />
+          <RevenueCard title="Revenue from Ebay" stat={(response.Revenues.EB / 1000).toFixed(2)} />
+          <RevenueCard title="Revenue from Etsy" stat={(response.Revenues.ET / 1000).toFixed(2)} />
+          <RevenueCard title="Total Revenue" stat={(response.Revenues.total / 1000).toFixed(2)} />
+        </Box>
+        <Box>
+          <PieChart title="Purchase Rate" stat={response.Rates.purchase} color="hsl(216, 54%, 49%)" />
+          <PieChart title="Checkout Rate" stat={response.Rates.checkout} color="hsl(186, 53%, 51%)" />
+          <PieChart title="Cart Abandon Rate" stat={response.Rates.abandoned} color="hsl(69, 83%, 84%)" />
+        </Box>
+        <Box>
+          <Card title="Orders Trend by Stores">
+            <BarChart data={
+              [
                 {
-                  "name": "NW",
-                  "loc": response.OrdersByRegion.nw
+                  "store": "Etsy",
+                  "value": response.OrdersByStore.ET
                 },
                 {
-                  "name": "SW",
-                  "loc": response.OrdersByRegion.sw
+                  "store": "Ebay",
+                  "value": response.OrdersByStore.EB
                 },
                 {
-                  "name": "CR",
-                  "loc": response.OrdersByRegion.c
-                },
-                {
-                  "name": "SE",
-                  "loc": response.OrdersByRegion.se
-                },
-                {
-                  "name": "NE",
-                  "loc": response.OrdersByRegion.ne
+                  "store": "Amazon",
+                  "value": response.OrdersByStore.AM
                 }
               ]
-            }
-          } />
-        </Card>
-      </Box>
-    </>
-  )
+            } />
+          </Card>
+          <Card title="Orders Trend by Region">
+            <BubbleChart data={
+              {
+                "name": "chart",
+                "children": [
+                  {
+                    "name": "NW",
+                    "loc": response.OrdersByRegion.nw
+                  },
+                  {
+                    "name": "SW",
+                    "loc": response.OrdersByRegion.sw
+                  },
+                  {
+                    "name": "CR",
+                    "loc": response.OrdersByRegion.c
+                  },
+                  {
+                    "name": "SE",
+                    "loc": response.OrdersByRegion.se
+                  },
+                  {
+                    "name": "NE",
+                    "loc": response.OrdersByRegion.ne
+                  }
+                ]
+              }
+            } />
+          </Card>
+        </Box>
+      </>
+    )
 }
 const OptionList = () => {
   // Note: Change this to a mapped array using array map method.
@@ -280,16 +297,7 @@ const App = () => {
         setResponse(data)
       }
       catch {
-        const errorMessage = `<p>See, the thing is: the backend server is down on Heroku.<br />
-        You could try refreshing the page.<br /><br />
-        If it still doesn't load then I've crossed my Heroku usage limit.<br /><br />
-        But...<br /><br />
-        You can check out the code for this repository here :<br /><br />
-        <a href="">Frontend</a>&nbsp;&nbsp;&nbsp;
-        <a href="">Backend</a>
-        </p>`
-        
-        document.querySelector('.loading').innerHTML = errorMessage
+        setResponse({})
       }
     }
 
@@ -310,7 +318,7 @@ const App = () => {
     <>
       <nav>
         <span>
-          <select id="month" onChange={handleChange}>
+          <select id="month" onChange={handleChange} autocomplete>
             <OptionList />
           </select>
         </span>

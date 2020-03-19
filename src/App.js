@@ -98,7 +98,6 @@ const BarChart = ({ data }) => {
   const dimensions = { height: '40vh', width: '45vw' }
   return (
     <div style={{ height: dimensions.height, width: dimensions.width, minHeight: 300, minWidth: 250 }} className="trickyChart">
-      {console.log(dimensions.height)}
       <ResponsiveBar
         colors="hsl(216, 54%, 49%)"
         data={data}
@@ -163,20 +162,8 @@ const DynamicBoxes = ({ response }) => {
 
   return !truthValue ? (
     <>
-      <div className="loading">
-        
-        <p>
-        Loading...<br /><br />
-        See, the thing is: the backend server is down on Heroku.<br />
-        You could try refreshing the page.<br /><br />
-        If it still doesn't load then I've crossed my Heroku usage limit.<br /><br />
-        But...<br /><br />
-        You can check out the code for this repository here :<br /><br />
-        <a href="">Frontend</a>&nbsp;&nbsp;&nbsp;
-        <a href="">Backend</a>
-      </p>
-      </div>
-      
+      <div className="loading"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+
     </>
   ) : (
       <>
@@ -210,8 +197,8 @@ const DynamicBoxes = ({ response }) => {
               ]
             } />
           </Card>
-          </Box>
-          <Box>
+        </Box>
+        <Box>
           <Card title="Orders Trend by Region">
             <BubbleChart data={
               {
@@ -246,30 +233,19 @@ const DynamicBoxes = ({ response }) => {
     )
 }
 const OptionList = () => {
-  // Note: Change this to a mapped array using array map method.
+
+
   return (
     <>
-      <option value="Jan 2019">Jan 2019</option>
-      <option value="Dec 2018">Dec 2018</option>
-      <option value="Nov 2018">Nov 2018</option>
-      <option value="Oct 2018">Oct 2018</option>
-      <option value="Sep 2018">Sep 2018</option>
-      <option value="Aug 2018">Aug 2018</option>
-      <option value="Jul 2018">Jul 2018</option>
-      <option value="Jun 2018">Jun 2018</option>
-      <option value="May 2018">May 2018</option>
-      <option value="Apr 2018">Apr 2018</option>
-      <option value="Mar 2018">Mar 2018</option>
-      <option value="Feb 2018">Feb 2018</option>
-      <option value="Jan 2018">Jan 2018</option>
+
     </>
   )
 }
 const App = () => {
-  // const baseUrl = 'https://sales-dashboard-react.herokuapp.com/db/'
-  const baseUrl = 'http://localhost:3001/db'
-  // const initialQuery = 'https://sales-dashboard-react.herokuapp.com/db/2019/Jan'
-  const initialQuery = 'http://localhost:3001/db/2019/Jan'
+  const baseUrl = 'https://sales-dashboard-react.herokuapp.com/db'
+  // const baseUrl = 'http://localhost:3001/db'
+  const initialQuery = 'https://sales-dashboard-react.herokuapp.com/db/2019/Ja'
+  // const initialQuery = 'http://localhost:3001/db/2019/Jan'
 
   const [response, setResponse] = useState({})
   const [query, setQuery] = useState(initialQuery)
@@ -305,8 +281,20 @@ const App = () => {
       }
       catch {
         setResponse({})
+        document.querySelector('.loading').innerHTML = `
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div><br />
+        <p>Psst! the thing is: the backend server is down on Heroku.<br />
+      You could try refreshing the page.<br /><br />
+      If it still doesn't load then I've crossed my Heroku usage limit.<br /><br />
+      But...<br /><br />
+      You can check out the code for this repository here :<br /><br />
+        <a href="">Frontend</a>&nbsp;&nbsp;&nbsp;
+      <a href="">Backend</a></p>`
       }
     }
+
+
+
 
     getData()
   }
@@ -321,12 +309,15 @@ const App = () => {
 
   useEffect(hook, [query])
 
+
+  const options = ["Jan 2019", "Dec 2018", "Nov 2018", "Oct 2018", "Sep 2018", "Aug 2018", "Jul 2018", "Jun 2018", "May 2018", "Apr 2018", "Mar 2018", "Feb 2018", "Jan 2018"]
+
   return (
     <>
       <nav>
         <span>
           <select id="month" onChange={handleChange} autocomplete>
-            <OptionList />
+            {options.map((option) => <option key={option} value={option}>{option}</option>)}
           </select>
         </span>
         <span>Sales Summary</span>

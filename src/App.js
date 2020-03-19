@@ -95,7 +95,7 @@ const PieChart = (props) => {
 const BarChart = ({ data }) => {
   const dimension = 300
   const margins = { top: dimension * 0.8 / 3, left: dimension * 0.8 / 3, bottom: dimension * 0.8 / 3, right: dimension * 0.8 / 3 }
-  const dimensions = { height: '35vh', width: '60vw' }
+  const dimensions = { height: '40vh', width: '45vw' }
   return (
     <div style={{ height: dimensions.height, width: dimensions.width, minHeight: 300, minWidth: 250 }} className="trickyChart">
       {console.log(dimensions.height)}
@@ -129,7 +129,7 @@ const BarChart = ({ data }) => {
 }
 
 const BubbleChart = ({ data }) => {
-  const dimensions = { height: '35vh', width: '60vw' }
+  const dimensions = { height: '40vh', width: '45vw' }
   return (
     <div style={{ height: dimensions.height, width: dimensions.width, minHeight: 300, minWidth: 250 }} className="trickyChart">
       <ResponsiveBubble
@@ -163,8 +163,11 @@ const DynamicBoxes = ({ response }) => {
 
   return !truthValue ? (
     <>
-      <div className="loading">Loading...</div>
-      <p>See, the thing is: the backend server is down on Heroku.<br />
+      <div className="loading">
+        
+        <p>
+        Loading...<br /><br />
+        See, the thing is: the backend server is down on Heroku.<br />
         You could try refreshing the page.<br /><br />
         If it still doesn't load then I've crossed my Heroku usage limit.<br /><br />
         But...<br /><br />
@@ -172,6 +175,8 @@ const DynamicBoxes = ({ response }) => {
         <a href="">Frontend</a>&nbsp;&nbsp;&nbsp;
         <a href="">Backend</a>
       </p>
+      </div>
+      
     </>
   ) : (
       <>
@@ -205,6 +210,8 @@ const DynamicBoxes = ({ response }) => {
               ]
             } />
           </Card>
+          </Box>
+          <Box>
           <Card title="Orders Trend by Region">
             <BubbleChart data={
               {

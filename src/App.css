@@ -99,6 +99,7 @@ text {
   flex-wrap: wrap;
 }
 
+
 .loading {
   display: flex;
   justify-content: center;
@@ -111,9 +112,17 @@ text {
   color: white;
 }
 
+.trickyChart {
+  align-self: center;
+}
+
 @media screen and (max-width: 310px) {
   /* applies styles to any device screen sizes below the given width wide */
   .trickyChart {
     display: none;
   }
+}
+
+@media screen and (max-width: 800px) {
+  
 }

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import './App.css';
+import axios from 'axios'
+
+import './App.css'
 
 import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
 import BubbleChart from './components/BubbleChart'
 
-import axios from 'axios'
+import { baseUrl, initialQuery } from './config'
 
 const Box = (props) => {
   return (
@@ -119,9 +121,7 @@ const DynamicBoxes = ({ response }) => {
 }
 
 const App = () => {
-  const baseUrl = 'https://sales-dashboard-react.herokuapp.com/db'
-  // const baseUrl = 'http://localhost:3001/db'
-  const initialQuery = 'https://sales-dashboard-react.herokuapp.com/db/2019/Jan'
+  
   // const initialQuery = 'http://localhost:3001/db/2019/Jan'
 
   const [response, setResponse] = useState({})
@@ -169,7 +169,7 @@ const App = () => {
       <a href="">Backend</a></p>`
       }
     }
-    
+
     getData()
   }
 

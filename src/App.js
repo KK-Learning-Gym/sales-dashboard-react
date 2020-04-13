@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
 
-import { ResponsivePie } from '@nivo/pie'
-import { ResponsiveBar } from '@nivo/bar'
-import { ResponsiveBubble } from '@nivo/circle-packing'
+import PieChart from './components/PieChart'
+import BarChart from './components/BarChart'
+import BubbleChart from './components/BubbleChart'
 
 import axios from 'axios'
 
@@ -33,121 +33,6 @@ const RevenueCard = (props) => {
   )
 }
 
-const PieChart = (props) => {
-  const pieData = [
-    {
-      "id": props.title,
-      "label": props.title,
-      "value": props.stat,
-      "color": props.color
-    },
-    {
-      "id": "empty",
-      "label": "empty",
-      "value": 100 - props.stat,
-      "color": "hsl(217, 33%, 14%)"
-    }
-  ]
-
-  const dimension = 300
-  const margins = { top: 0, left: dimension * 0.8 / 3, bottom: 0, right: dimension * 0.8 / 3 }
-  return (
-    <div className="card">
-      <div className="card-title center top-margin">{props.title}</div>
-      <div className="piebox">
-        <div style={{
-          height: dimension,
-          width: dimension,
-          position: "relative"
-        }}>
-          <ResponsivePie
-            data={pieData}
-            colors={pieData => pieData.color}
-            margin={margins}
-            innerRadius={0.5}
-            enableRadialLabels={false}
-            enableSlicesLabels={false}
-            isInteractive={false}
-            style={{
-              display: 'flex',
-            }}
-          />
-          <div style={{
-            position: "absolute",
-            top: '0',
-            bottom: '0',
-            right: dimension / 2,
-            left: dimension / 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center"
-          }}>
-            <span>{pieData[0].value}%</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const BarChart = ({ data }) => {
-  const dimension = 300
-  const margins = { top: dimension * 0.8 / 3, left: dimension * 0.8 / 3, bottom: dimension * 0.8 / 3, right: dimension * 0.8 / 3 }
-  const dimensions = { height: '40vh', width: '45vw' }
-  return (
-    <div style={{ height: dimensions.height, width: dimensions.width, minHeight: 300, minWidth: 250 }} className="trickyChart">
-      <ResponsiveBar
-        colors="hsl(216, 54%, 49%)"
-        data={data}
-        keys={['value']}
-        indexBy="store"
-        margin={margins}
-        padding={0.3}
-        layout="horizontal"
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          legend: 'Orders',
-          legendPosition: 'middle',
-          legendOffset: 50
-        }}
-        axisLeft={{
-          tickSize: 10,
-          tickPadding: 5
-        }}
-        enableGridX={true}
-        enableGridY={false}
-        enableLabel={false}
-        isInteractive={false}
-
-      />
-    </div>
-  )
-}
-
-const BubbleChart = ({ data }) => {
-  const dimensions = { height: '40vh', width: '45vw' }
-  return (
-    <div style={{ height: dimensions.height, width: dimensions.width, minHeight: 300, minWidth: 250 }} className="trickyChart">
-      <ResponsiveBubble
-        root={data}
-        margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
-        identity="name"
-        value="loc"
-        colors={{ scheme: 'spectral' }}
-        padding={9}
-        enableLabel={true}
-        isZoomable={false}
-        leavesOnly={true}
-        isInteractive={false}
-        className="trickyChart"
-      />
-    </div>
-  )
-}
-
 const DynamicBoxes = ({ response }) => {
 
   console.log("loading dynamic boxes")
@@ -162,7 +47,7 @@ const DynamicBoxes = ({ response }) => {
 
   return !truthValue ? (
     <>
-      <div className="loading"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+      <div className="loading"><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
 
     </>
   ) : (
@@ -232,19 +117,11 @@ const DynamicBoxes = ({ response }) => {
       </>
     )
 }
-const OptionList = () => {
 
-
-  return (
-    <>
-
-    </>
-  )
-}
 const App = () => {
   const baseUrl = 'https://sales-dashboard-react.herokuapp.com/db'
   // const baseUrl = 'http://localhost:3001/db'
-  const initialQuery = 'https://sales-dashboard-react.herokuapp.com/db/2019/Ja'
+  const initialQuery = 'https://sales-dashboard-react.herokuapp.com/db/2019/Jan'
   // const initialQuery = 'http://localhost:3001/db/2019/Jan'
 
   const [response, setResponse] = useState({})
@@ -292,20 +169,9 @@ const App = () => {
       <a href="">Backend</a></p>`
       }
     }
-
-
-
-
+    
     getData()
   }
-  // see : https://daveceddia.com/useeffect-hook-examples/ under Prevent useEffect From Running Every Render
-  // You can provide a second argument – an array of values. Think of them as the dependencies for that effect.
-  // If one of the dependencies has changed since the last time, the effect will run again.
-  // (It will also still run after the initial render)
-  // From FullStackOpen:
-  // The second parameter of useEffect is used to specify how often the effect is run.
-  // If the second parameter is an empty array [],
-  // then the effect is only run along with the first render of the component.
 
   useEffect(hook, [query])
 
@@ -316,7 +182,7 @@ const App = () => {
     <>
       <nav>
         <span>
-          <select id="month" onChange={handleChange} autocomplete>
+          <select id="month" onChange={handleChange} autoComplete="true">
             {options.map((option) => <option key={option} value={option}>{option}</option>)}
           </select>
         </span>

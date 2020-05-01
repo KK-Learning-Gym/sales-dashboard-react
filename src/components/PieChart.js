@@ -20,7 +20,7 @@ const PieChart = (props) => {
     const dimension = 300
     const margins = { top: 0, left: dimension * 0.8 / 3, bottom: 0, right: dimension * 0.8 / 3 }
     return (
-        <div className="card">
+        <div className="card flex-col">
             <div className="card-title center top-margin">{props.title}</div>
             <div className="piebox">
                 <div style={{

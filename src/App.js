@@ -13,7 +13,7 @@ import { baseUrl, initialQuery } from './config'
 
 const Box = (props) => {
   return (
-    <div className="flexbox">
+    <div className="box flex-row">
       {props.children}
     </div>
   )
@@ -21,7 +21,7 @@ const Box = (props) => {
 
 const Card = (props) => {
   return (
-    <div className="card">
+    <div className="card flex-col">
       <div className="card-title center top-margin">{props.title}</div>
       {props.children}
     </div>
@@ -30,7 +30,7 @@ const Card = (props) => {
 
 const RevenueCard = (props) => {
   return (
-    <div className="card">
+    <div className="card flex-col">
       <div className="card-title center">{props.title}</div>
       <div className="card-stat center"><span style={{ fontSize: '1.5rem' }}>$ </span>{props.stat}k</div>
     </div>
@@ -40,21 +40,15 @@ const RevenueCard = (props) => {
 const Loading = () => {
   return (
     <>
-      <div className="loading"><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+      <div className="loading flex-col"><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
     </>
   )
 }
 
 const DynamicBoxes = ({ response, page }) => {
 
-  console.log("loading dynamic boxes")
-  console.log("checking response received in component:")
-  console.log(response)
-
   const truthValue = Object.keys(response).length === 0 && response.constructor === Object ? false : true
 
-  console.log("truthValue")
-  console.log(truthValue)
   if (page === 'loading') {
     return (
       <Loading />
@@ -143,13 +137,8 @@ const App = () => {
 
   const handleChange = (event) => {
 
-    console.log("event received")
-
     const valueArray = event.target.value.split(" ")
     const requestUrl = baseUrl + "/" + valueArray[1] + "/" + valueArray[0]
-
-    console.log("setting query")
-    console.log(requestUrl)
 
     setQuery(requestUrl)
   }
@@ -158,14 +147,9 @@ const App = () => {
     const getData = async () => {
       console.log("received query as:")
       console.log(query)
-      console.log("fetching data now...")
 
       try {
         const { data } = await axios(query)
-
-        console.log("got data as:")
-        console.log(data)
-        console.log("setting response")
 
         setResponse(data)
         setPage('main')
@@ -186,7 +170,7 @@ const App = () => {
 
   return (
     <>
-      <nav>
+      <nav className="flex-row">
         <span>
           <select id="month" onChange={handleChange} autoComplete="true">
             {options.map((option) => <option key={option} value={option}>{option}</option>)}

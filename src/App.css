@@ -2,12 +2,13 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'CircularStd', sans-serif;
-  letter-spacing: .05rem;
+  font-family: "CircularStd", sans-serif;
+  letter-spacing: 0.05rem;
   /* border: solid 0.5px yellowgreen; */
 }
 
-html, body {
+html,
+body {
   height: 100%;
   font-weight: 400;
 }
@@ -24,11 +25,9 @@ nav {
   width: 100%;
   background-color: black;
   color: white;
-  display: flex;
-  flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  min-height: 50px;
+  min-height: 3em;
 }
 
 a {
@@ -39,13 +38,13 @@ select {
   background-color: inherit;
   color: white;
   height: 3em;
-  font-family: 'CircularStd', sans-serif;
+  font-family: "CircularStd", sans-serif;
   font-weight: 700;
   /* appearance: none;*/
   border: 0;
 }
 
-nav>span {
+nav > span {
   margin: auto 2rem;
 }
 
@@ -62,9 +61,28 @@ text {
   fill: #fff !important;
 }
 
-.card {
+
+/* General Layout */
+.flex-col {
   display: flex;
   flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Spacing */
+.left-margin {
+  margin-left: 2.5rem;
+}
+
+.top-margin {
+  margin-top: 1.5rem;
+}
+
+.card {
   justify-content: space-around;
   margin: 2.5vw;
   background-color: #202a3b;
@@ -72,12 +90,11 @@ text {
   min-height: 180px;
   min-width: 280px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  ;
 }
 
 .card-title {
   color: #8091ab;
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .card-stat {
@@ -88,40 +105,27 @@ text {
   text-align: center;
 }
 
-.left-margin {
-  margin-left: 2.5rem;
-}
-
-.top-margin {
-  margin-top: 1.5rem;
-}
-
 .piebox {
   display: flex;
   justify-content: space-around;
 }
 
-.flexbox {
-  display: flex;
-  flex-direction: row;
+.box {
   justify-content: space-around;
   flex-wrap: wrap;
 }
 
-
 .loading {
   height: 100%;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.loading>* {
+.loading > * {
   color: white;
 }
 
-.loading>p>a {
+.loading > p > a {
   color: white;
 }
 
@@ -129,17 +133,13 @@ text {
   align-self: center;
 }
 
+
 @media screen and (max-width: 310px) {
   /* applies styles to any device screen sizes below the given width wide */
   .trickyChart {
     display: none;
   }
 }
-
-@media screen and (max-width: 800px) {
-  
-}
-
 
 /* Atrribution: PlotDB Ltd.  https://loading.io/css/ */
 /* CSS for Spinning Icon */
